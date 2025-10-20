@@ -72,3 +72,35 @@ python scripts/train_spam_classifier.py \
 ```
 
 Observed (held-out): Precision ? 0.923, Recall ? 0.966, F1 ? 0.944.
+
+## Visualization
+
+Generate visual reports (outputs saved under `reports/visualizations/`):
+
+```
+# Class distribution
+python scripts/visualize_spam.py \
+  --input datasets/processed/sms_spam_clean.csv \
+  --label-col col_0 \
+  --class-dist
+
+# Token frequency (top 20 per class)
+python scripts/visualize_spam.py \
+  --input datasets/processed/sms_spam_clean.csv \
+  --label-col col_0 --text-col text_clean \
+  --token-freq --topn 20
+
+# Confusion matrix, ROC, PR (requires trained artifacts in models/)
+python scripts/visualize_spam.py \
+  --input datasets/processed/sms_spam_clean.csv \
+  --label-col col_0 --text-col text_clean \
+  --models-dir models \
+  --confusion-matrix --roc --pr
+
+# Threshold sweep (CSV + plot)
+python scripts/visualize_spam.py \
+  --input datasets/processed/sms_spam_clean.csv \
+  --label-col col_0 --text-col text_clean \
+  --models-dir models \
+  --threshold-sweep
+```
