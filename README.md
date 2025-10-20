@@ -54,3 +54,21 @@ python scripts/predict_spam.py \
 - Artifacts are saved to `models/` for reuse (vectorizer, model, label mapping).
 - See docs/PREPROCESSING.md for detailed step-by-step preprocessing with examples.
 - OpenSpec usage: `openspec validate add-spam-email-classifier --strict`
+
+### Recommended Settings (Precision ? 0.90, Recall ? 0.93)
+
+Use these flags to balance precision and recall:
+
+```
+python scripts/train_spam_classifier.py \
+  --input datasets/processed/sms_spam_clean.csv \
+  --label-col col_0 --text-col text_clean \
+  --class-weight balanced \
+  --ngram-range 1,2 \
+  --min-df 2 \
+  --sublinear-tf \
+  --C 2.0 \
+  --eval-threshold 0.50
+```
+
+Observed (held-out): Precision ? 0.923, Recall ? 0.966, F1 ? 0.944.
