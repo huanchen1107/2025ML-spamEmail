@@ -114,7 +114,8 @@ streamlit run app/streamlit_app.py
 ```
 
 Features:
+- Dataset and column pickers
 - Class distribution and top tokens by class
 - Confusion matrix, ROC/PR curves (requires trained artifacts in `models/`)
 - Threshold slider with live precision/recall/f1
-- Dataset and column pickers
+- Live Inference: type a message to see predicted label and spam probability with a probability bar and threshold marker

@@ -180,10 +180,43 @@ def main():
                 "f1": float(f1_score(yte, p, zero_division=0)),
             })
         st.dataframe(pd.DataFrame(rows))
+
+        # Live Inference
+        st.subheader("Live Inference")
+        user_text = st.text_area("Enter a message to classify", "")
+        if st.button("Predict"):
+            if user_text.strip():
+                X_single = vec.transform([user_text])
+                prob = float(clf.predict_proba(X_single)[:, 1][0])
+                pred_label = pos_label if prob >= threshold else neg_label
+                st.success(f"Prediction: {pred_label}  |  spam-prob = {prob:.4f}  (threshold = {threshold:.2f})")
+
+                # Probability bar (0..1) with threshold marker
+                fig_g, ax_g = plt.subplots(figsize=(6, 0.6))
+                ax_g.barh([0], [prob], color="#d62728" if pred_label == pos_label else "#1f77b4")
+                ax_g.axvline(threshold, color="black", linestyle="--", linewidth=1)
+                ax_g.set_xlim(0, 1)
+                ax_g.set_yticks([])
+                ax_g.set_xlabel("spam probability")
+                ax_g.text(min(prob + 0.02, 0.98), 0, f"{prob:.2f}", va="center")
+                st.pyplot(fig_g)
+            else:
+                st.info("Please enter a non-empty message.")
+
+        # Live inference box
+        st.subheader("Live Inference")
+        user_text = st.text_area("Enter a message to classify", "")
+        if st.button("Predict"):
+            if user_text.strip():
+                X_single = vec.transform([user_text])
+                prob = float(clf.predict_proba(X_single)[:, 1][0])
+                pred_label = pos_label if prob >= threshold else neg_label
+                st.success(f"Prediction: {pred_label}  |  spam-prob = {prob:.4f}  (threshold = {threshold:.2f})")
+            else:
+                st.info("Please enter a non-empty message.")
     else:
         st.info("Model artifacts not found in 'models/'. Train the model first to enable performance plots.")
 
 
 if __name__ == "__main__":
     main()
-
