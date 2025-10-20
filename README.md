@@ -9,6 +9,9 @@ A simple, reproducible pipeline to classify messages/emails as spam or ham using
 - Preprocessing report: docs/PREPROCESSING.md
 - OpenSpec change proposal: openspec/changes/add-spam-email-classifier/
 
+# Demo Site
+https://2025spamemail.streamlit.app/
+
 ## Setup
 
 ```
@@ -132,4 +135,5 @@ Features:
    - Branch: main
    - Main file: app/streamlit_app.py
 3) Wait for build to finish. The app uses prebuilt artifacts in `models/` so it works immediately.
+
 
