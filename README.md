@@ -126,6 +126,7 @@ Features:
 - Confusion matrix, ROC/PR curves (requires trained artifacts in `models/`)
 - Threshold slider with live precision/recall/f1
 - Live Inference: type a message to see predicted label and spam probability with a probability bar and threshold marker
+ - Quick test: use the built-in "Use spam example" / "Use ham example" buttons to auto-fill the input and try predictions immediately
 
 ## Deploy to Streamlit Cloud
 
