@@ -83,6 +83,25 @@ def label_to_int(series: pd.Series, pos_label: str = "spam") -> np.ndarray:
     return (s == pos_label.lower()).astype(int).values
 
 
+# Lightweight normalization to match training text_clean behavior for live inference
+import re
+URL_RE = re.compile(r"https?://\S+|www\.\S+", re.IGNORECASE)
+EMAIL_RE = re.compile(r"\b[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}\b")
+PHONE_RE = re.compile(r"\b(?:\+?\d[\d\-\s]{7,}\d)\b")
+
+def normalize_text(text: str, keep_numbers: bool = False) -> str:
+    if not isinstance(text, str):
+        text = "" if text is None else str(text)
+    t = text.lower()
+    t = URL_RE.sub("<URL>", t)
+    t = EMAIL_RE.sub("<EMAIL>", t)
+    t = PHONE_RE.sub("<PHONE>", t)
+    if not keep_numbers:
+        t = re.sub(r"\d+", "<NUM>", t)
+    t = re.sub(r"[^\w\s<>]", " ", t)
+    t = re.sub(r"\s+", " ", t).strip()
+    return t
+
 def main():
     st.title("Spam/Ham Classifier — Phase 4 Visualizations")
     st.caption("Interactive dashboard for data distribution, token patterns, and model performance")
@@ -186,7 +205,10 @@ def main():
         user_text = st.text_area("Enter a message to classify", "")
         if st.button("Predict"):
             if user_text.strip():
-                X_single = vec.transform([user_text])
+                cleaned = normalize_text(user_text)
+                with st.expander("Show normalized text", expanded=False):
+                    st.code(cleaned)
+                X_single = vec.transform([cleaned])
                 prob = float(clf.predict_proba(X_single)[:, 1][0])
                 pred_label = pos_label if prob >= threshold else neg_label
                 st.success(f"Prediction: {pred_label}  |  spam-prob = {prob:.4f}  (threshold = {threshold:.2f})")
@@ -203,17 +225,7 @@ def main():
             else:
                 st.info("Please enter a non-empty message.")
 
-        # Live inference box
-        st.subheader("Live Inference")
-        user_text = st.text_area("Enter a message to classify", "")
-        if st.button("Predict"):
-            if user_text.strip():
-                X_single = vec.transform([user_text])
-                prob = float(clf.predict_proba(X_single)[:, 1][0])
-                pred_label = pos_label if prob >= threshold else neg_label
-                st.success(f"Prediction: {pred_label}  |  spam-prob = {prob:.4f}  (threshold = {threshold:.2f})")
-            else:
-                st.info("Please enter a non-empty message.")
+        
     else:
         st.info("Model artifacts not found in 'models/'. Train the model first to enable performance plots.")
 
