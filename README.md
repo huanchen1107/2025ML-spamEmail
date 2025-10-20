@@ -119,3 +119,12 @@ Features:
 - Confusion matrix, ROC/PR curves (requires trained artifacts in `models/`)
 - Threshold slider with live precision/recall/f1
 - Live Inference: type a message to see predicted label and spam probability with a probability bar and threshold marker
+
+## Deploy to Streamlit Cloud
+
+1) Push this repo to GitHub (already done).
+2) Go to https://share.streamlit.io, click ¡§New app¡¨, and select:
+   - Repository: huanchen1107/2025ML-spamEmail
+   - Branch: main
+   - Main file: app/streamlit_app.py
+3) Wait for build to finish. The app uses prebuilt artifacts in `models/` so it works immediately.
