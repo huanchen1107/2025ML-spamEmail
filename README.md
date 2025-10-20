@@ -145,3 +145,8 @@ Features:
 
 
 
+
+## Project Status
+
+Phases 1–4 are complete and archived. See the final summary: `docs/FinalReport.md`.
+
