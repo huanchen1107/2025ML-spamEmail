@@ -202,7 +202,22 @@ def main():
 
         # Live Inference
         st.subheader("Live Inference")
-        user_text = st.text_area("Enter a message to classify", "")
+        # Provide two quick examples to try
+        ex_spam = "Free entry in 2 a wkly comp to win cash now! Call +44 906-170-1461 to claim prize"
+        ex_ham = "Ok, I'll see you at 7 pm for dinner. Thanks!"
+        c_ex1, c_ex2 = st.columns(2)
+        with c_ex1:
+            if st.button("Use spam example"):
+                st.session_state["input_text"] = ex_spam
+        with c_ex2:
+            if st.button("Use ham example"):
+                st.session_state["input_text"] = ex_ham
+
+        # Text area bound to session_state so examples populate it
+        if "input_text" not in st.session_state:
+            st.session_state["input_text"] = ""
+        user_text = st.text_area("Enter a message to classify", key="input_text")
+
         if st.button("Predict"):
             if user_text.strip():
                 cleaned = normalize_text(user_text)
