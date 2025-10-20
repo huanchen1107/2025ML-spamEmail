@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Preprocess dataset (smoke)
+        run: |
+          python scripts/preprocess_emails.py \
+            --input datasets/sms_spam_no_header.csv \
+            --output datasets/processed/sms_spam_clean_ci.csv \
+            --no-header --label-col-index 0 --text-col-index 1 \
+            --output-text-col text_clean
+
+      - name: Train model (smoke)
+        run: |
+          python scripts/train_spam_classifier.py \
+            --input datasets/processed/sms_spam_clean_ci.csv \
+            --label-col col_0 --text-col text_clean
+
+      - name: Predict sample (smoke)
+        run: |
+          python scripts/predict_spam.py --text "Free entry in 2 a wkly comp to win cash"
+
