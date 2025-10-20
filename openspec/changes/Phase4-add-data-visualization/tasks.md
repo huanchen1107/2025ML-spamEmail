@@ -8,8 +8,8 @@
 - [ ] Create `reports/visualizations/` and write outputs with timestamped filenames
 
 ## 2. Validation
-- [ ] Run visualizations on current cleaned dataset and trained model artifacts
-- [ ] Ensure images (PNG) are produced without errors and are readable
+- [x] Run visualizations on current cleaned dataset and trained model artifacts
+- [x] Ensure images (PNG) are produced without errors and are readable
 - [ ] Add README section with example commands and sample images list
 
 - [x] Add Streamlit app `app/streamlit_app.py` with:
@@ -25,4 +25,5 @@
       - Probability bar/gauge with threshold marker
       - Optional token-based context (e.g., highlight presence of top spam/ham tokens)
 - [x] 3.3 Document this feature in README with a screenshot and usage notes.
+
 
