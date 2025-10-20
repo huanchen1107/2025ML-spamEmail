@@ -9,6 +9,12 @@ A simple, reproducible pipeline to classify messages/emails as spam or ham using
 - Preprocessing report: docs/PREPROCESSING.md
 - OpenSpec change proposal: openspec/changes/add-spam-email-classifier/
 
+## Source Reference
+
+This project builds upon patterns and datasets related to the Spam Email problem from Chapter 3 of the Packt repository below. We used it to expand the preprocessing steps and add richer visualization work (step outputs, metrics, and CLI/Streamlit views).
+
+- https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Cybersecurity.git
+
 # Demo Site
 https://2025spamemail.streamlit.app/
 
@@ -136,5 +142,6 @@ Features:
    - Branch: main
    - Main file: app/streamlit_app.py
 3) Wait for build to finish. The app uses prebuilt artifacts in `models/` so it works immediately.
+
 
 
