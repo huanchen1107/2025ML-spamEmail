@@ -454,3 +454,21 @@ openspec archive [change] [--yes|-y]  # Mark complete (add --yes for automation)
 ```
 
 Remember: Specs are truth. Changes are proposals. Keep them in sync.
+
+## Archive Naming Convention
+
+Archived OpenSpec changes live under `openspec/changes/archive/` and use a phase-oriented naming scheme for readability and chronology.
+
+- Folder format: `YYYY-MM-DD-PhaseN-<short-name>`
+  - Example: `2025-10-20-Phase1-spamEmail`, `2025-10-20-Phase2-improve-spam-recall`, `2025-10-20-Phase3-improve-spam-precision`.
+  - `PhaseN` increases in the order changes were archived on that date.
+- Inside each archive folder the canonical files remain the same:
+  - `proposal.md`
+  - `tasks.md`
+  - `specs/<capability>/spec.md`
+- How to archive:
+  - `openspec archive <change-id> --yes`
+- How to rename safely:
+  - Rename only the top-level archived change folder to add `PhaseN-...`.
+  - Keep internal file names (`proposal.md`, `tasks.md`, `specs/...`) unchanged.
+  - Update any external documentation links if they referenced the old folder path.
