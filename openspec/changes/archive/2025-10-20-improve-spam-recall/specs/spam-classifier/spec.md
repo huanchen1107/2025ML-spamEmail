@@ -1,8 +1,5 @@
-# spam-classifier Specification
+## MODIFIED Requirements
 
-## Purpose
-TBD - created by archiving change add-spam-email-classifier. Update Purpose after archive.
-## Requirements
 ### Requirement: Spam Email Classification
 The system MUST provide options to optimize for higher recall on spam while maintaining acceptable precision.
 
@@ -10,4 +7,3 @@ The system MUST provide options to optimize for higher recall on spam while main
 - WHEN training is performed with enhanced features or class weighting
 - THEN Recall on held-out test >= 0.93
 - AND Precision remains >= 0.90 (dataset-dependent)
-

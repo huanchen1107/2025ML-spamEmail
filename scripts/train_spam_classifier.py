@@ -81,6 +81,12 @@ def main() -> int:
     p.add_argument("--models-dir", default=os.path.join("models"))
     p.add_argument("--steps-out-dir", default=None, help="Optional directory to save CSVs for each training sub-step under datasets/processed/steps style")
     p.add_argument("--topk", type=int, default=10, help="Top-K TF-IDF tokens to export per document when saving steps")
+    # recall-improving knobs
+    p.add_argument("--class-weight", choices=["none", "balanced"], default="none")
+    p.add_argument("--ngram-range", default="1,1", help="n-gram range as 'min,max' (e.g., '1,2' for unigrams+bigrams)")
+    p.add_argument("--min-df", type=int, default=1, help="Ignore terms with document frequency < min-df")
+    p.add_argument("--sublinear-tf", action="store_true", help="Use sublinear tf scaling in TF-IDF")
+    p.add_argument("--eval-threshold", type=float, default=0.5, help="Threshold for converting probabilities to labels during evaluation")
 
     args = p.parse_args()
 
@@ -92,15 +98,31 @@ def main() -> int:
 
     X_train, X_test, y_train, y_test = train_test_split(X_text, y, test_size=args.test_size, random_state=args.seed, stratify=y)
 
-    vec = TfidfVectorizer(stop_words="english")
+    # parse ngram range
+    try:
+        ngram_parts = [int(x.strip()) for x in args.ngram_range.split(",")]
+        if len(ngram_parts) != 2:
+            raise ValueError
+        ngram_tuple = (ngram_parts[0], ngram_parts[1])
+    except Exception:
+        raise ValueError("--ngram-range must be like '1,2'")
+
+    vec = TfidfVectorizer(
+        stop_words="english",
+        ngram_range=ngram_tuple,
+        min_df=args.min_df,
+        sublinear_tf=args.sublinear_tf,
+    )
     Xtr = vec.fit_transform(X_train)
     Xte = vec.transform(X_test)
 
-    clf = LogisticRegression(max_iter=args.max_iter, C=args.C)
+    class_weight = None if args.class_weight == "none" else "balanced"
+    clf = LogisticRegression(max_iter=args.max_iter, C=args.C, class_weight=class_weight)
     clf.fit(Xtr, y_train)
 
-    y_pred = clf.predict(Xte)
     y_proba = clf.predict_proba(Xte)[:, 1]
+    # allow custom threshold for evaluation
+    y_pred = (y_proba >= args.eval_threshold).astype(int)
 
     acc = accuracy_score(y_test, y_pred)
     prec = precision_score(y_test, y_pred, zero_division=0)
