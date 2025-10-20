@@ -104,3 +104,17 @@ python scripts/visualize_spam.py \
   --models-dir models \
   --threshold-sweep
 ```
+
+## Streamlit App
+
+Launch the interactive dashboard:
+
+```
+streamlit run app/streamlit_app.py
+```
+
+Features:
+- Class distribution and top tokens by class
+- Confusion matrix, ROC/PR curves (requires trained artifacts in `models/`)
+- Threshold slider with live precision/recall/f1
+- Dataset and column pickers
