@@ -1,6 +1,10 @@
-# Spam Email Classifier (AIoT-DA2025 HW3)
+Ôªø# Spam Email Classifier (AIoT-DA2025 HW3)
 
-A simple, reproducible pipeline to classify messages/emails as spam or ham using scikit‚Äëlearn and OpenSpec.
+
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](REPLACE_WITH_YOUR_STREAMLIT_APP_URL)
+
+> After deploying on Streamlit Cloud, replace `REPLACE_WITH_YOUR_STREAMLIT_APP_URL` above with your app URL (e.g., https://your-app-name.streamlit.app).
+A simple, reproducible pipeline to classify messages/emails as spam or ham using scikit?Óîîearn and OpenSpec.
 
 - Preprocessing report: docs/PREPROCESSING.md
 - OpenSpec change proposal: openspec/changes/add-spam-email-classifier/
@@ -123,8 +127,9 @@ Features:
 ## Deploy to Streamlit Cloud
 
 1) Push this repo to GitHub (already done).
-2) Go to https://share.streamlit.io, click °ßNew app°®, and select:
+2) Go to https://share.streamlit.io, click ‚ÄúNew app‚Äù, and select:
    - Repository: huanchen1107/2025ML-spamEmail
    - Branch: main
    - Main file: app/streamlit_app.py
 3) Wait for build to finish. The app uses prebuilt artifacts in `models/` so it works immediately.
+
